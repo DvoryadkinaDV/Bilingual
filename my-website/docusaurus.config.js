@@ -1,4 +1,3 @@
-
 import {themes as prismThemes} from 'prism-react-renderer';
 
 const simplePlantUML = require("@akebifiky/remark-simple-plantuml"); // объявляем плагин для plantuml
@@ -7,7 +6,6 @@ const simplePlantUML = require("@akebifiky/remark-simple-plantuml"); // объя
 const config = {
   title: 'Bilingual',
   favicon: 'img/favicon.ico',
-
   url: 'https://DvoryadkinaDV.github.io',
   baseUrl: 'Bilingual',
   organizationName: 'DvoryadkinaDV', 
@@ -16,12 +14,6 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
   deploymentBranch: 'gh-pages',
-  blog: false,
-
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
-  },
 
 //подключаем плагин для drawio
   plugins: [
@@ -39,7 +31,6 @@ const config = {
             'https://github.com/DvoryadkinaDV/Bilingual',
           remarkPlugins: [simplePlantUML], //подключаем плагин для plantuml
         },
-        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -65,7 +56,6 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: 'Bilingual',
@@ -88,8 +78,8 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Docs',
+                to: '/docs/',
               },
             ],
           },
@@ -113,10 +103,6 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
               {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
