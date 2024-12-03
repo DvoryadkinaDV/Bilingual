@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[676],{2132:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"API","slug":"/category/api","permalink":"/Bilingual/docs/category/api","sidebar":"tutorialSidebar","navigation":{"next":{"title":"API 1 - Swagger Bilingual","permalink":"/Bilingual/docs/API/Bilingual"}}}}')}}]);
