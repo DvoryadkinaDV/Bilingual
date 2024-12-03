@@ -1,0 +1,404 @@
+openapi: 3.0.3
+info:
+  title: Bilingual API
+  version: "1.0.0"
+  description: "API для платформы Bilingual, которая объединяет пользователей для изучения иностранных языков"
+servers:
+  - url: https://api.bilingual.com
+tags:
+  - name: user
+    description: "Методы управления пользователями"
+  - name: community
+    description: "Методы управления сообществами"
+  - name: chat
+    description: "Методы управления чатами"
+  - name: subscription
+    description: "Методы управления подписками"
+security:
+  - BearerAuth: []
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - user
+      summary: "Получить список пользователей"
+      description: "Возвращает список пользователей, отфильтрованный по заданным параметрам"
+      parameters:
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Предпочтительный язык пользователя"
+        - name: skillLevel
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [BEGINNER, INTERMEDIATE, ADVANCED]
+          description: "Уровень владения языком"
+        - name: topic
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Предпочитаемые тематики"
+      responses:
+        200:
+          description: "Успешно получен список пользователей"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+    post:
+      tags:
+        - user
+      summary: "Зарегистрировать пользователя"
+      description: "Создает новую учетную запись пользователя"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        201:
+          description: "Пользователь успешно создан"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /api/users/{userId}:
+    delete:
+      tags:
+        - user
+      summary: "Удалить пользователя"
+      description: "Удаляет существующую учетную запись пользователя"
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: "Уникальный идентификатор пользователя"
+      responses:
+        204:
+          description: "Пользователь успешно удален"
+  /api/v1/communities/search:
+    get:
+      tags:
+        - community
+      summary: "Фильтрация сообществ"
+      description: "Получение списка сообществ, отфильтрованных по параметрам"
+      parameters:
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Язык сообщества"
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Город сообщества"
+      responses:
+        200:
+          description: "Успешно получен список отфильтрованных сообществ"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommunityResponse'
+  /api/v1/communities:
+    get:
+      tags:
+        - community
+      summary: "Список подходящих сообществ"
+      description: "Получение списка всех подходящих сообществ"
+      responses:
+        200:
+          description: "Успешно получен список сообществ"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommunityResponse'
+    post:
+      tags:
+        - community
+      summary: "Создать сообщество"
+      description: "Создает новое сообщество"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunityRequest'
+      responses:
+        201:
+          description: "Сообщество успешно создано"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+  /api/v1/communities/{communityId}:
+    get:
+      tags:
+        - community
+      summary: "Профиль сообщества"
+      description: "Получение информации о конкретном сообществе"
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: "Уникальный идентификатор сообщества"
+      responses:
+        200:
+          description: "Успешно получена информация о сообществе"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+  /api/v1/chats/{chatId}/messages:
+    get:
+      tags:
+        - chat
+      summary: "Получение сообщений чата"
+      description: "Возвращает сообщения чата"
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: "Уникальный идентификатор чата"
+      responses:
+        200:
+          description: "Успешно получен список сообщений"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageResponse'
+    post:
+      tags:
+        - chat
+      summary: "Отправка сообщения в чат"
+      description: "Отправляет сообщение в чат"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        201:
+          description: "Сообщение успешно отправлено"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+  /api/v1/subscriptions:
+    get:
+      tags:
+        - subscription
+      summary: "Список подписок"
+      description: "Получение списка доступных тарифов и услуг"
+      responses:
+        200:
+          description: "Успешно получен список подписок"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriptionResponse'
+    post:
+      tags:
+        - subscription
+      summary: "Оформить подписку"
+      description: "Оформление подписки на тариф или услугу"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+      responses:
+        201:
+          description: "Подписка успешно оформлена"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+  /api/v1/subscriptions/{serviceId}:
+    get:
+      tags:
+        - subscription
+      summary: "Детали подписки"
+      description: "Получение информации о конкретной подписке"
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: "Уникальный идентификатор подписки"
+      responses:
+        200:
+          description: "Успешно получена информация о подписке"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+    delete:
+      tags:
+        - subscription
+      summary: "Отмена подписки"
+      description: "Удаление существующей подписки"
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: "Уникальный идентификатор подписки"
+      responses:
+        204:
+          description: "Подписка успешно отменена"
+components:
+  schemas:
+    UserRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - role
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        role:
+          type: string
+          enum: [STUDENT, PARTNER]
+        skillLevel:
+          type: string
+          enum: [BEGINNER, INTERMEDIATE, ADVANCED]
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [STUDENT, PARTNER]
+        skillLevel:
+          type: string
+          enum: [BEGINNER, INTERMEDIATE, ADVANCED]
+        languages:
+          type: array
+          items:
+            type: string
+    CommunityRequest:
+      type: object
+      required:
+        - name
+        - language
+      properties:
+        name:
+          type: string
+        language:
+          type: string
+        topic:
+          type: string
+    CommunityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        language:
+          type: string
+        topic:
+          type: string
+        creatorId:
+          type: integer
+        members:
+          type: array
+          items:
+            type: integer
+    SubscriptionRequest:
+      type: object
+      required:
+        - type
+        - creatorId
+        - price
+      properties:
+        type:
+          type: string
+          enum: [BASIC, PREMIUM]
+        userId:
+          type: integer
+        validUntil:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+    SubscriptionResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        type:
+          type: string
+        validUntil:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+    MessageRequest:
+      type: object
+      required:
+        - text
+        - userId
+      properties:
+        text:
+          type: string
+        userId:
+          type: integer
+    MessageResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        userId:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
