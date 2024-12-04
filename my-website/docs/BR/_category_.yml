@@ -1,0 +1,7 @@
+position: 2 # для сортировки папки в сайдбаре
+label: Обзор проекта # название пункта меню в сайдбаре
+collapsible: true
+collapsed: true
+link:
+  type: generated-index
+  title: Бизнес-требования # Заголовок на странице
