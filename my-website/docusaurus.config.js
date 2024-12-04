@@ -14,7 +14,6 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
   deploymentBranch: 'gh-pages',
-  blog: false,
 
 //подключаем плагин для drawio
   plugins: [
@@ -32,7 +31,6 @@ const config = {
             'https://github.com/DvoryadkinaDV/Bilingual',
           remarkPlugins: [simplePlantUML], //подключаем плагин для plantuml
         },
-        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
